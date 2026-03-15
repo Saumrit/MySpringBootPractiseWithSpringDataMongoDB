@@ -2,10 +2,10 @@ spring:
   profiles.active: local
   data:
     mongodb:
-#      uri: mongodb://localhost:27017/myone
-#      host: localhost
-#      port: 27017
-#      database: myone
+      uri: mongodb://localhost:27017/mySpringBootPractise
+      host: localhost
+      port: 27017
+      database: mySpringBootPractise
 management:
   endpoints:
     web:
@@ -14,3 +14,10 @@ management:
 springdoc:
   swagger-ui:
     path: "/swagger-ui.html"
+
+myapp:
+  mydatabase:
+    uri: mongodb://localhost:27017/mySpringBootPractise
+    host: localhost
+    port: 27017
+    database: mySpringBootPractise

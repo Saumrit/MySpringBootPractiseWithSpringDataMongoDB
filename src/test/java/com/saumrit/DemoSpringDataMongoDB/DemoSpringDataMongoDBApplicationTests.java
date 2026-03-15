@@ -1,10 +1,10 @@
-package com.saumrit.OpenAPISwaggerDemo;
+package com.saumrit.DemoSpringDataMongoDB;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class OpenAPISwaggerDemoTests {
+class DemoSpringDataMongoDBApplicationTests {
 
 	@Test
 	void contextLoads() {

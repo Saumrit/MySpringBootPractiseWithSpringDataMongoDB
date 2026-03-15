@@ -1,4 +1,4 @@
-package com.saumrit.OpenAPISwaggerDemo.model;
+package com.saumrit.DemoSpringDataMongoDB.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
