@@ -54,7 +54,7 @@ public class V2StudentController {
             @ApiResponse(responseCode = "200",description = "Success"),
             @ApiResponse(responseCode = "400",description = "Bad Request"),
             @ApiResponse(responseCode = "500",description = "Internal Server Error") })
-    public void addSingleStudent(@RequestBody @NotNull StudentDTO studentDTO){
+    public void addSingleStudent(@RequestBody  StudentDTO studentDTO){
         v2StudentService.addSingleStudent(studentDTO);
     }
 

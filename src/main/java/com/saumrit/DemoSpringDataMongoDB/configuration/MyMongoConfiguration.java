@@ -1,28 +1,24 @@
 package com.saumrit.DemoSpringDataMongoDB.configuration;
 
-import com.mongodb.ConnectionString;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.MongoCredential;
 import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClientFactory;
 import com.mongodb.client.MongoClients;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.MongoClientFactoryBean;
-import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 
 @Configuration
-@ConfigurationProperties(prefix = "myapp.mydatabase")
 public class MyMongoConfiguration {
 
-    public String uri;
-    public String host;
-    public int port;
-    public String database;
+    public final MyDBConfigurationProperties myDBConfigurationProperties;
+
+    public MyMongoConfiguration(MyDBConfigurationProperties myDBConfigurationProperties) {
+        this.myDBConfigurationProperties = myDBConfigurationProperties;
+    }
 
     /**
      * This method is created to return a mongoClient Bean using the connection URI directly from YML
@@ -30,7 +26,7 @@ public class MyMongoConfiguration {
      */
     @Bean
     public MongoClient mongoClient(){
-        return MongoClients.create(uri);
+        return MongoClients.create(myDBConfigurationProperties.uri);
     }
 
     /**
@@ -42,25 +38,29 @@ public class MyMongoConfiguration {
      */
     @Bean
     public MongoClient getMongoClientByFactory() throws Exception {
-        MongoCredential mongoCredential= MongoCredential.createCredential("",database,"".toCharArray());
+        MongoCredential mongoCredential= MongoCredential.createCredential("",myDBConfigurationProperties.database,"".toCharArray());
         MongoClientFactoryBean mongoClientFactoryBean= new MongoClientFactoryBean();
         mongoClientFactoryBean.setCredential(new MongoCredential[]{mongoCredential});
-        mongoClientFactoryBean.setPort(port);
-        mongoClientFactoryBean.setHost(host);
+        mongoClientFactoryBean.setPort(myDBConfigurationProperties.port);
+        mongoClientFactoryBean.setHost(myDBConfigurationProperties.host);
         return mongoClientFactoryBean.getObject();
     }
 
 
     @Bean
     public MongoDatabaseFactory mongoDatabaseFactory(){
-        return new SimpleMongoClientDatabaseFactory(uri);
+        return new SimpleMongoClientDatabaseFactory(myDBConfigurationProperties.uri);
     }
 
+    @Bean
+    public ObjectMapper objectMapper(){
+        return new ObjectMapper();
+    }
 
     @Bean
     public MongoTemplate mongoTemplate(){
         MongoTemplate mongoTemplate_From_MongoDatabaseFactory= new MongoTemplate(mongoDatabaseFactory());
-        MongoTemplate mongoTemplate_From_MongoClient= new MongoTemplate(mongoClient(),database);
+        MongoTemplate mongoTemplate_From_MongoClient= new MongoTemplate(mongoClient(),myDBConfigurationProperties.database);
         return mongoTemplate_From_MongoDatabaseFactory;
     }
 

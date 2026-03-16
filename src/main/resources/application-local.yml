@@ -12,9 +12,9 @@ management:
       exposure:
         include: mappings
 
-myapp:
-  mydatabase:
-    uri: mongodb://localhost:27017/mySpringBootPractise
-    host: localhost
-    port: 27017
-    database: mySpringBootPractise
+
+mydatabase:
+  uri: mongodb://localhost:27017/mySpringBootPractise
+  host: localhost
+  port: 27017
+  database: mySpringBootPractise
