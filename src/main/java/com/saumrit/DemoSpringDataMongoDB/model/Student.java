@@ -21,7 +21,7 @@ public class Student {
 
     @Id
     public String id;
-
+    public String rollId;
     public String name;
     public String standard;
     public Integer age;
@@ -29,11 +29,12 @@ public class Student {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
     public Date dateOfBirth;
-    public Boolean isNRI;
+    public Boolean nriStatus;
     public Float cgpa;
     public String college;
     public List<Semester> semesters;
     public Branch branch;
+    public Integer passOutYear;
 
 
 }

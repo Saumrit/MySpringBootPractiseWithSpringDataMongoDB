@@ -5,7 +5,7 @@ spring:
       host: localhost
       port: 27017
       database: mySpringBootPractise
-server.port: 8085
+server.port: 8080
 management:
   endpoints:
     web:

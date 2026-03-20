@@ -91,6 +91,18 @@ public class V1StudentController {
         return v1StudentService.updateSingleStudent(studentDTO);
     }
 
+    @Operation(summary = "Api to patch update a StudentDTO",
+            description = "Api to patch update a StudentDTO")
+    @PatchMapping("/customWork/{fname}")
+    @ResponseStatus(HttpStatus.OK)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Success"),
+            @ApiResponse(responseCode = "400",description = "Bad Request"),
+            @ApiResponse(responseCode = "500",description = "Internal Server Error") })
+    public Long workWithRepositoryMethod(@PathVariable String fname){
+        return v1StudentService.updateSingleStudentAge(fname,1);
+    }
+
 
 
 

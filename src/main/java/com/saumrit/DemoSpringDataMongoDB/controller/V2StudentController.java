@@ -2,6 +2,7 @@ package com.saumrit.DemoSpringDataMongoDB.controller;
 
 
 import com.saumrit.DemoSpringDataMongoDB.data.enums.StudentDTO;
+import com.saumrit.DemoSpringDataMongoDB.model.Address;
 import com.saumrit.DemoSpringDataMongoDB.service.V2StudentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -98,6 +100,47 @@ public class V2StudentController {
         Assert.notNull(studentDTO.getName(),"Name cannot be null while Updating");
         Assert.notNull(studentDTO.getCollege(),"College cannot be null while Updating");
         return v2StudentService.updateSingleStudent(studentDTO);
+    }
+
+    @Operation(summary = "Get get All GenZ Students",
+            description = "Get All GenZ Students")
+    @GetMapping("/getAllGenZs")
+    @ResponseStatus(HttpStatus.OK)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Success"),
+            @ApiResponse(responseCode = "400",description = "Bad Request"),
+            @ApiResponse(responseCode = "500",description = "Internal Server Error") })
+    public List<StudentDTO> getAllGenZsStudents() throws ParseException {
+        return v2StudentService.fetchAllGenZStudent();
+    }
+
+    @Operation(summary = "Get get All NRI Students",
+            description = "Get All NRI Students")
+    @GetMapping("/getAllNRIs")
+    @ResponseStatus(HttpStatus.OK)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Success"),
+            @ApiResponse(responseCode = "400",description = "Bad Request"),
+            @ApiResponse(responseCode = "500",description = "Internal Server Error") })
+    public List<StudentDTO> getAllNRIStudents() throws Exception {
+        return v2StudentService.fetchAllNRIStudent();
+    }
+
+    @Operation(summary = "Api to Update Address for a Student",
+            description = "Api to Update Address for a Student, here specific Address like city, state etc can be updated individually" +
+                    " or as a whole address also")
+    @PatchMapping("/modifyAddress/{rollNumber}")
+    @ResponseStatus(HttpStatus.OK)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Success"),
+            @ApiResponse(responseCode = "400",description = "Bad Request"),
+            @ApiResponse(responseCode = "500",description = "Internal Server Error") })
+    public long updateAddress(@RequestBody Address address,
+                                    @PathVariable(name = "rollNumber",required = true,value = "rollNumber") String rollNumber,
+                                    @RequestParam(required = false,name = "branch") String branch) throws Exception {
+        Assert.notNull(address,"address cannot be null to Update");
+        Assert.notNull(address,"address cannot be null to Update");
+        return v2StudentService.updateAddressForSingleStudentWithRollAndBranch(address,rollNumber,branch);
     }
 
 

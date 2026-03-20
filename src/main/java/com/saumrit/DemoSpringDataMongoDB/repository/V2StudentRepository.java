@@ -3,6 +3,7 @@ package com.saumrit.DemoSpringDataMongoDB.repository;
 import com.saumrit.DemoSpringDataMongoDB.data.enums.Branch;
 import com.saumrit.DemoSpringDataMongoDB.model.Address;
 import com.saumrit.DemoSpringDataMongoDB.model.Student;
+import com.saumrit.DemoSpringDataMongoDB.util.StudentIDGeneratorUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -23,8 +24,11 @@ public class V2StudentRepository {
     @Autowired
     public  final MongoTemplate mongoTemplate ;
 
-    public V2StudentRepository(MongoTemplate mongoTemplate) {
+    public final StudentIDGeneratorUtil studentIDGeneratorUtil;
+
+    public V2StudentRepository(MongoTemplate mongoTemplate, StudentIDGeneratorUtil studentIDGeneratorUtil) {
         this.mongoTemplate = mongoTemplate;
+        this.studentIDGeneratorUtil = studentIDGeneratorUtil;
     }
 
     public List<Student> getAllStudents(){
@@ -38,8 +42,9 @@ public class V2StudentRepository {
     }
 
     public void addSingleStudent(Student student){
+        student.setRollId(studentIDGeneratorUtil.generateByApacheText(10));
         mongoTemplate.insert(student);
-        //mongoTemplate.save(student) //TODO check the difference between save and insert
+        //mongoTemplate.save(student); //TODO check the difference between save and insert
     }
 
     public long deleteSingleStudent(String id){
@@ -76,13 +81,13 @@ public class V2StudentRepository {
         return mongoTemplate.find(query.addCriteria(criteria),Student.class);
     }
 
-    public long updateAddress(Address address,String name,String branch) throws Exception {
+    public long updateAddress(Address address,String roll,String branch) throws Exception {
         Query query= new Query();
-        Criteria criteria= Criteria.where("name").is(name)
-                .andOperator(Criteria.where("branch").is(Branch.CSE));
+        Criteria criteria= Criteria.where("rollId").is(roll)
+                .andOperator(Criteria.where("branch").is(Branch.valueOf(branch)));
         List<Student> students= mongoTemplate.find(query.addCriteria(criteria),Student.class);
         if(students.size()>1)
-            throw new Exception("Duplicate DOcuments Found with name and branch ");
+            throw new Exception("Duplicate Documents Found with roll and branch ");
         Update update= new Update();
         update.set("address",address);
         return mongoTemplate.update(Student.class)
