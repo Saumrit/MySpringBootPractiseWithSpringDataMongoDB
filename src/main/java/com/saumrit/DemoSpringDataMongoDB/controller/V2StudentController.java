@@ -1,7 +1,7 @@
 package com.saumrit.DemoSpringDataMongoDB.controller;
 
 
-import com.saumrit.DemoSpringDataMongoDB.data.enums.StudentDTO;
+import com.saumrit.DemoSpringDataMongoDB.data.StudentDTO;
 import com.saumrit.DemoSpringDataMongoDB.model.Address;
 import com.saumrit.DemoSpringDataMongoDB.service.V2StudentService;
 import io.swagger.v3.oas.annotations.Operation;

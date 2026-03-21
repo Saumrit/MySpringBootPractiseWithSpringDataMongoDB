@@ -5,6 +5,7 @@ import com.saumrit.DemoSpringDataMongoDB.model.Address;
 import com.saumrit.DemoSpringDataMongoDB.model.Student;
 import com.saumrit.DemoSpringDataMongoDB.util.StudentIDGeneratorUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -21,12 +22,11 @@ import java.util.regex.Pattern;
 @Repository
 public class V2StudentRepository {
 
-    @Autowired
     public  final MongoTemplate mongoTemplate ;
-
     public final StudentIDGeneratorUtil studentIDGeneratorUtil;
 
-    public V2StudentRepository(MongoTemplate mongoTemplate, StudentIDGeneratorUtil studentIDGeneratorUtil) {
+    public V2StudentRepository(@Qualifier("mongoTemplate") MongoTemplate mongoTemplate,
+                               StudentIDGeneratorUtil studentIDGeneratorUtil) {
         this.mongoTemplate = mongoTemplate;
         this.studentIDGeneratorUtil = studentIDGeneratorUtil;
     }

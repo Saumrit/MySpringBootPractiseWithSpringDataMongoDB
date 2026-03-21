@@ -6,6 +6,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.MongoClientFactoryBean;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -24,7 +25,7 @@ public class MyMongoConfiguration {
      * This method is created to return a mongoClient Bean using the connection URI directly from YML
      * @return MongoClient
      */
-    @Bean
+    @Bean(name = "FirstMongoClient")
     public MongoClient mongoClient(){
         return MongoClients.create(myDBConfigurationProperties.uri);
     }
@@ -36,7 +37,7 @@ public class MyMongoConfiguration {
      * @return MongoClient
      * @throws Exception
      */
-    @Bean
+    @Bean(name = "SecondMongoClient")
     public MongoClient getMongoClientByFactory() throws Exception {
         MongoCredential mongoCredential= MongoCredential.createCredential("",myDBConfigurationProperties.database,"".toCharArray());
         MongoClientFactoryBean mongoClientFactoryBean= new MongoClientFactoryBean();
@@ -57,11 +58,17 @@ public class MyMongoConfiguration {
         return new ObjectMapper();
     }
 
-    @Bean
+    @Bean(name="mongoTemplateFromMongoDatabaseFactory")
+    @Primary
     public MongoTemplate mongoTemplate(){
         MongoTemplate mongoTemplate_From_MongoDatabaseFactory= new MongoTemplate(mongoDatabaseFactory());
-        MongoTemplate mongoTemplate_From_MongoClient= new MongoTemplate(mongoClient(),myDBConfigurationProperties.database);
         return mongoTemplate_From_MongoDatabaseFactory;
+    }
+
+    @Bean(name="mongoTemplate")
+    public MongoTemplate mongoTemplateS(){
+        MongoTemplate mongoTemplate_From_MongoClient= new MongoTemplate(mongoClient(),myDBConfigurationProperties.database);
+        return mongoTemplate_From_MongoClient;
     }
 
 

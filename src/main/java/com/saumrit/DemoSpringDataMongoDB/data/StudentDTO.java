@@ -1,6 +1,7 @@
-package com.saumrit.DemoSpringDataMongoDB.data.enums;
+package com.saumrit.DemoSpringDataMongoDB.data;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.saumrit.DemoSpringDataMongoDB.data.enums.Branch;
 import com.saumrit.DemoSpringDataMongoDB.model.Address;
 import com.saumrit.DemoSpringDataMongoDB.model.Semester;
 import lombok.Data;

@@ -1,7 +1,7 @@
 package com.saumrit.DemoSpringDataMongoDB.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.saumrit.DemoSpringDataMongoDB.data.enums.StudentDTO;
+import com.saumrit.DemoSpringDataMongoDB.data.StudentDTO;
 import com.saumrit.DemoSpringDataMongoDB.model.Address;
 import com.saumrit.DemoSpringDataMongoDB.model.Student;
 import com.saumrit.DemoSpringDataMongoDB.repository.V2StudentRepository;
